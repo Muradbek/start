@@ -10,8 +10,8 @@ export class UsersService {
   users: Users[] = [];
 
   constructor() {
-    this.usersApiService.getUsers().subscribe((val) => {
-      this.users = val;
+    this.usersApiService.getUsers().subscribe((user) => {
+      this.users = user;
     });
   }
 

@@ -1,14 +1,18 @@
 <div class="user-card">
-    <div class="user-card-item">
-      <p class="user-name">{{ user.name }}</p>
-      <p class="user-username">{{ user.username }}</p>
-      <p class="user-email">{{ user.email }}</p>
+  <div class="user-card-content">
+      <div class="user-card-content-item">
+        <p class="user-name">{{ user.name }}</p>
+        <p class="user-username">{{ user.username }}</p>
+        <p class="user-email">{{ user.email }}</p>
+      </div>
+      <div class="user-card-content-item">
+        <p class="user-phone">{{ user.phone }}</p>
+        <p class="user-website">{{ user.website }}</p>
+      </div>
     </div>
-    <div class="user-card-item">
-      <p class="user-phone">{{ user.phone }}</p>
-      <p class="user-website">{{ user.website }}</p>
-        <button class="user-delete" (click)="onDelete()">Удалить</button>
+    <div class="user-card-button">
+      <button class="user-delete" (click)="onDelete()">Удалить</button>
+      <button class="user-redaction" (click)="onEdit()">Редактировать</button>
     </div>
-
   </div>
   

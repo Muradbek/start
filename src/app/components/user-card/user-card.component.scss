@@ -1,19 +1,25 @@
 .user-card {
+    padding: 20px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 30px;
+    width: 500px;
+    min-height: 200px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 500px;
 }
 
-.user-card-item{
+.user-card-content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-card-content-item{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 160px;
 }
 
 .user-name {
@@ -42,17 +48,35 @@
     text-decoration: underline;
 }
 
-.user-delete{
-    margin-top: 20px;
-    padding: 5px;
-    width: 100px;
-    border: none;
-    background-color: rgb(145 135 135);
 
+.user-card-button{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-delete{
+    padding: 10px;
+    width: 120px;
+    border-radius: 30px;
+    border: none;
+    background-color: rgb(255 0 0);
     color: black;
 }
 
 .user-delete:hover{
     transition: 0.3s;
-    background-color: rgb(255 56 56);
+    background-color: rgba(255, 0, 0, 0.479);
+}
+
+.user-redaction{
+    padding: 10px;
+    width: 120px;
+    border-radius: 30px;
+    border: none;
+    background-color: #1a932b;
+}
+
+.user-redaction:hover{
+    background-color: #1a932a86;
 }
