@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Users } from '../../data/interfaces/users.interface';
 
 @Component({
@@ -7,6 +7,7 @@ import { Users } from '../../data/interfaces/users.interface';
   imports: [],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserCardComponent {
   @Input() user!: Users;
@@ -19,6 +20,5 @@ export class UserCardComponent {
 
   onEdit() {
     this.editUser.emit(this.user);
-    // console.log("🚀 ~ UserCardComponent ~ onEdit ~ this.user:", this.user)
   }
 }
