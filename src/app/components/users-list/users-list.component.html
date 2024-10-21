@@ -1,12 +1,15 @@
 <div class="user-list-container">
-  <button (click)="openCreateDialog()" mat-raised-button color="primary">Add user(+)</button>
-<div class="user-card__wrapper">
-    <app-user-card
-      *ngFor="let user of users"
-      [user]="user"
-      (deleteUser)="onUserDelete($event)"
-      (editUser)="openEditDialog($event)">
-    </app-user-card>
+  <div class="user-list-container__button-wrapper">
+    <app-filter-control [formControl]="filterControl"></app-filter-control>
+    <button (click)="openCreateDialog()" mat-raised-button color="primary">Add user(+)</button>
+  </div>
+  <div class="user-card__wrapper">
+      <app-user-card
+        *ngFor="let user of users$ | async"
+        [user]="user"
+        (deleteUser)="onUserDelete($event)"
+        (editUser)="openEditDialog($event)">
+      </app-user-card>
   </div>
 </div>
 

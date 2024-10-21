@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Users } from '../interfaces/users.interface';
+import { User } from '../interfaces/users.interface';
 
 
 @Injectable({
@@ -12,7 +12,6 @@ export class UsersApiService {
   constructor(private http: HttpClient) {}
 
   getUsers() {
-    return this.http.get<Users[]>(`${this.apiUrl}/users`); 
+    return this.http.get<User[]>(`${this.apiUrl}/users`); 
   }
-  
 }

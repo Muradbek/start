@@ -4,10 +4,13 @@
     align-items: center;
     gap: 30px;
 }
-
+.user-list-container__button-wrapper{
+    display: flex;
+    gap: 100px;    
+    width: 1100px;
+}
 .user-card__wrapper{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    width: 1100px;
 }
