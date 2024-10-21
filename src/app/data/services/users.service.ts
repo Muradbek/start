@@ -25,7 +25,7 @@ export class UsersService {
     } else {
       const users = JSON.parse(storedUsers);
 
-      const filteredUsers = users.filter((user: { name: string; }) => 
+      const filteredUsers = users.filter((user: User) => 
         user.name.toLowerCase().includes(filterName.toLowerCase())
       );
       this.users$.next(filteredUsers);
