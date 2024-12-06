@@ -1,0 +1,23 @@
+<div>
+  <button mat-raised-button (click)="openDialog()" color="primary" id="create-button">Create New User</button>
+</div>
+<div>
+  <!-- <label for="item-input">Add an item:</label>
+  <input type="text" id="item-input" #inputtedUser />
+  <button type="button" (click)="deleteUser(inputtedUser.value)">
+    Delete User
+  </button>
+
+  <p>{{ inputtedUser.value }}</p> -->
+  <mat-grid-list cols="3" rowHeight="350px">
+    <mat-grid-tile  *ngFor="let user of usersService.users">
+      <app-user-card 
+        [userMail]="user.email"
+       
+        [user]="user"
+        (deleteUserEvent)="deleteUser($event)"
+        (updateUserEvent)="openDialog(user.id)"
+      ></app-user-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

@@ -1,15 +1,9 @@
-<br>
-<p>If no other text on page, means that loaded only basic App Component</p>
-<button [routerLink]="['./']" routerLinkActive="router-link-active" >
-  go to Homepage
-</button>
-<br>
-<br>
-<button [routerLink]="['/users']" routerLinkActive="router-link-active" >
-  go to users
-</button>
-<br>
-<br>
+<div id="navbar-cl">
+  <button mat-button [routerLink]="['./']" routerLinkActive="router-link-active" ><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon></button>
 
+  <button mat-button [routerLink]="['/users']" routerLinkActive="router-link-active">Users</button>
 
-<router-outlet/>
+  <button mat-button>About</button>
+</div>
+
+<router-outlet />

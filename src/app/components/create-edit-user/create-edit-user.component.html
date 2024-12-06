@@ -1,0 +1,20 @@
+
+<h1 mat-dialog-title>Данные пользователя </h1>
+<div mat-dialog-content>
+  <!-- <p>What's your favorite animal?</p> -->
+<form [formGroup]="userForm" novalidate >
+  <mat-form-field>
+    <mat-label>Имя</mat-label>
+    <input *ngIf="data.isEdit == true" matInput [(ngModel)]="data.user.name" formControlName="name">
+    <input *ngIf="data.isEdit == false" matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input *ngIf="data.isEdit == true" matInput [(ngModel)]="data.user.email" formControlName="email">
+    <input *ngIf="data.isEdit == false" matInput formControlName="email">
+  </mat-form-field>
+</form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="userForm.value">{{data.isEdit ? 'Сохранить и закрыть' : 'Создать'}}</button>
+</div>
