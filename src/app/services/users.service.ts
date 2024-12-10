@@ -1,47 +1,50 @@
-import { Injectable } from '@angular/core';
-import { User } from './users-api.service';
+import { inject, Injectable } from '@angular/core';
+import { User, UsersApiService } from './users-api.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class UsersService {
-  users: User[] = [];
+  private usersApiService = inject(UsersApiService);
+  //users: User[] = [];
+  users = new BehaviorSubject<User[]>([]);
+
+  //usr$ = this.usersSubject.asObservable()
 
   constructor() {
-    this.loadUsers()
-  }
-
-
-  private saveUsers(): void {
-    localStorage.setItem('users', JSON.stringify(this.users));
-  }
-
-  private loadUsers(): void {
     const storedUsers = localStorage.getItem('users');
-    if(storedUsers) {
-      this.users = JSON.parse(storedUsers);
+    if (storedUsers) {
+      this.users.next(JSON.parse(storedUsers));
+    } else {
+      this.usersApiService.getUsers().subscribe((e) => {
+        this.users.next(e);
+        localStorage.setItem('users', JSON.stringify(e));
+      });
+      this.usersApiService.printLog();
     }
   }
 
-  getUsers(): any[] {
-    return this.users
+  getUsers(): User[] {
+    return this.users.getValue();
   }
-
-  addUser(newUser: any) {
-    this.users.push(newUser);
-    this.saveUsers();
-  }
-
 
   getUsersById(userId: any) {
-    return this.users.find((x) => x.id === userId);
+    return this.users.value.find((x) => x.id === userId);
   }
 
   deleteUser(userId: number) {
-    this.users = this.users.filter((user) => user.id !== userId);
-    this.saveUsers()
+    const filtredUsers = [
+      ...this.users.value.filter((user) => user.id !== userId),
+    ];
+    this.users.next(filtredUsers);
+    localStorage.setItem('users', JSON.stringify(filtredUsers));
   }
 
-  editUser(userId: any) {
-    console.log('edited user ID' + userId);
-    this.saveUsers()
+  editUser(updatedUser: User): void {
+    const usersArr = this.getUsers();
+    const index = usersArr.findIndex((e) => e.id === updatedUser.id);
+    if (index !== -1) {
+      usersArr[index] = updatedUser;
+      this.users.next([...usersArr]);
+    }
   }
 }

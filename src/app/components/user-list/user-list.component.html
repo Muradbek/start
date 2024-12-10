@@ -10,7 +10,7 @@
 
   <p>{{ inputtedUser.value }}</p> -->
   <mat-grid-list cols="3" rowHeight="350px">
-    <mat-grid-tile  *ngFor="let user of usersService.users">
+    <mat-grid-tile  *ngFor="let user of users">
       <app-user-card 
         [userMail]="user.email"
        
