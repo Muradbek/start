@@ -6,9 +6,13 @@ app-user-card {
 }
 
 #create-button {
-    justify-content: center;
-    display: flex;
-    position: absolute;
-    left: 200px;
+   margin-right: 100px;
+
+   
+}
+
+#create-button-and-filter {
     margin-top: 25px;
+    justify-content: space-between;
+    padding: 20px;
 }

@@ -1,22 +1,26 @@
-<div>
-  <button mat-raised-button (click)="openDialog()" color="primary" id="create-button">Create New User</button>
-</div>
-<div>
-  <!-- <label for="item-input">Add an item:</label>
-  <input type="text" id="item-input" #inputtedUser />
-  <button type="button" (click)="deleteUser(inputtedUser.value)">
-    Delete User
+<div id="create-button-and-filter">
+  <button
+    mat-raised-button
+    (click)="openCreateDialog()"
+    id="create-button"
+    color="primary"
+  >
+    Create New User
   </button>
+  <app-users-filter
+    id="filter-el"
+    [formControl]="filterControl"
+  ></app-users-filter>
+</div>
 
-  <p>{{ inputtedUser.value }}</p> -->
+<div>
   <mat-grid-list cols="3" rowHeight="350px">
-    <mat-grid-tile  *ngFor="let user of users">
-      <app-user-card 
+    <mat-grid-tile *ngFor="let user of users$ | async">
+      <app-user-card
         [userMail]="user.email"
-       
         [user]="user"
         (deleteUserEvent)="deleteUser($event)"
-        (updateUserEvent)="openDialog(user.id)"
+        (updateUserEvent)="openUpdateDialog($event)"
       ></app-user-card>
     </mat-grid-tile>
   </mat-grid-list>

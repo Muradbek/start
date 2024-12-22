@@ -2,7 +2,6 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from "rxjs";
-import { UsersService } from "./users.service";
 
 export interface User {
     address: string;
@@ -17,7 +16,6 @@ export interface User {
 
 @Injectable()
 export class UsersApiService {
-   // private usersService = inject(UsersService)
     public printLog():void{
         console.log('Alif-service');
     }

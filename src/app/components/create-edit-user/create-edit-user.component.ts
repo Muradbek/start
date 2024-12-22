@@ -32,38 +32,42 @@ import { NgIf } from '@angular/common';
     MatDialogActions,
     MatDialogModule,
     ReactiveFormsModule,
-    NgIf
   ],
   templateUrl: './create-edit-user.component.html',
   styleUrl: './create-edit-user.component.scss',
 })
-export class CreateEditUserComponent implements OnInit {
- 
-  //userForm: FormGroup;
-  //user: User
-  isEdit: boolean ;
+export class CreateEditUserComponent {
+  isEdit = false;
+
   userForm = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
     email: new FormControl<string>('', [Validators.required]),
   });
   constructor(
     public dialogRef: MatDialogRef<CreateEditUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {
-      user: User, isEdit: boolean
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      user: User;
+      isEdit: boolean;
     }
   ) {
-   
-
+    if (data.isEdit) {
+      this.isEdit = true;
+      this.userForm.patchValue(data.user);
+    }
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
+  addUser() {
+    if (this.userForm.valid) {
+      this.dialogRef.close(this.userForm.value);
+    }
+  }
   submit() {
     console.log('submit clicked');
   }
-  ngOnInit(): void {
-    //console.log(this.data.user)
-  }
+
   get name() {
     return this.userForm.controls.name as FormControl;
   }

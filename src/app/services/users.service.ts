@@ -5,46 +5,79 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class UsersService {
   private usersApiService = inject(UsersApiService);
-  //users: User[] = [];
-  users = new BehaviorSubject<User[]>([]);
-
-  //usr$ = this.usersSubject.asObservable()
+  users$ = new BehaviorSubject<User[]>([]);
 
   constructor() {
+   
+  }
+  mockUserData(name: string, email: string) {
+    let usrData = {
+      id: Date.now(),
+      name: name,
+      username: 'Bret',
+      email: email,
+      address: 'Dagestan',
+      phone: '1-770-736-8031 x56442',
+      website: 'hildegard.org',
+      company: 'Romaguera-Crona',
+    };
+    return usrData;
+  }
+  getUsers(filterValue: string = '') {
     const storedUsers = localStorage.getItem('users');
-    if (storedUsers) {
-      this.users.next(JSON.parse(storedUsers));
-    } else {
+    
+    if (!storedUsers) {
       this.usersApiService.getUsers().subscribe((e) => {
-        this.users.next(e);
+        const filteredUsers = e.filter(usr => 
+          usr.name.toLowerCase().includes(filterValue.toLowerCase())
+        );
+       
+        this.users$.next(filteredUsers);
         localStorage.setItem('users', JSON.stringify(e));
       });
       this.usersApiService.printLog();
+      
+    } else {
+      const users = JSON.parse(storedUsers);
+
+      const filteredUsers = users.filter((user: { name: string; }) => 
+        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      );
+      this.users$.next(filteredUsers);
     }
+    return this.users$.asObservable()
   }
 
-  getUsers(): User[] {
-    return this.users.getValue();
+  newUser(result: any) {
+    this.users$.value.push(this.mockUserData(result.name, result.email));
+    localStorage.setItem('users', JSON.stringify(this.users$.value));
+  } 
+  getUsersMet(): User[] {
+    return this.users$.getValue();
   }
 
-  getUsersById(userId: any) {
-    return this.users.value.find((x) => x.id === userId);
+  getUserById(userId: any) {
+    return this.users$.value.find((x) => x.id === userId);
   }
 
   deleteUser(userId: number) {
     const filtredUsers = [
-      ...this.users.value.filter((user) => user.id !== userId),
+      ...this.users$.value.filter((user) => user.id !== userId),
     ];
-    this.users.next(filtredUsers);
+    this.users$.next(filtredUsers);
     localStorage.setItem('users', JSON.stringify(filtredUsers));
   }
 
-  editUser(updatedUser: User): void {
-    const usersArr = this.getUsers();
-    const index = usersArr.findIndex((e) => e.id === updatedUser.id);
+  editUser(updatedUser: any): void {
+    const usersArr = this.getUsersMet();
+    const index = this.users$.value.findIndex((e) => e.id === updatedUser.id);
+    console.log(updatedUser)
     if (index !== -1) {
+      
       usersArr[index] = updatedUser;
-      this.users.next([...usersArr]);
+      this.users$.next(usersArr);
+      localStorage.setItem('users', JSON.stringify(usersArr));
+  
     }
   }
 }

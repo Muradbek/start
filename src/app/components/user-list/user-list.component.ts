@@ -7,12 +7,15 @@ import {
 } from '@angular/core';
 import { User, UsersApiService } from '../../services/users-api.service';
 import { UserCardComponent } from '../user-card/user-card.component';
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { UsersService } from '../../services/users.service';
 import { CreateEditUserComponent } from '../create-edit-user/create-edit-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { UsersFilterComponent } from '../users-filter/users-filter.component';
 
 @Component({
   selector: 'app-user-list',
@@ -23,6 +26,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatGridList,
     MatGridTile,
     MatButtonModule,
+    ReactiveFormsModule,
+    CommonModule,
+    UsersFilterComponent,
   ],
   providers: [UsersApiService, UsersService],
   templateUrl: './user-list.component.html',
@@ -30,31 +36,10 @@ import { MatButtonModule } from '@angular/material/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserListComponent implements OnInit {
-  // private usersApiService = inject(UsersApiService);
-  //public usersService = inject(UsersService);
-
-  //@Output() deleteUserEvent = new EventEmitter<any>();
-
-  // deleteUser(value: any) {
-  //   this.deleteUserEvent.emit(value);
-  //   console.log(`deleted ${value} user`);
-  // }
-
   users: User[] = [];
+  users$: Observable<User[]> = this.usersService.getUsers();
 
-  userData(name: string, email: string) {
-    let usrData = {
-      id: Date.now(),
-      name: name,
-      username: 'Bret',
-      email: email,
-      address: 'Dagestan',
-      phone: '1-770-736-8031 x56442',
-      website: 'hildegard.org',
-      company: 'Romaguera-Crona',
-    };
-    return usrData;
-  }
+  filterControl = new FormControl('');
 
   constructor(
     public dialog: MatDialog,
@@ -63,9 +48,8 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.usersService.users.subscribe((user) => {
-      this.users = user;
-      this.cdr.markForCheck();
+    this.filterControl.valueChanges.subscribe((filterValue) => {
+      this.usersService.getUsers(filterValue ?? '');
     });
   }
 
@@ -73,36 +57,34 @@ export class UserListComponent implements OnInit {
     this.usersService.deleteUser(id);
     this.cdr.markForCheck();
   }
- 
-  openDialog(id?: number): void {
-    const getUsr = this.usersService.getUsersById(id);
-    let isEdit: boolean;
 
-    function isEditFunc() {
-      if (id) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(CreateEditUserComponent, {
+      width: '350px',
+      height: '380px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.usersService.newUser(result);
+      this.cdr.markForCheck();
+    });
+  }
+
+  openUpdateDialog(user: User): void {
+    let isEdit = user ? true : false;
 
     const dialogRef = this.dialog.open(CreateEditUserComponent, {
       width: '350px',
       height: '380px',
-      data: { user: getUsr, isEdit: isEditFunc() },
+      data: { user, isEdit },
     });
 
-    dialogRef.beforeClosed().subscribe((result) => {
-      if (result && isEditFunc() == false) {
-        this.users.push(this.userData(result.name, result.email));
-        localStorage.setItem('users', JSON.stringify(this.users))
-        this.cdr.markForCheck();
-      }
-      if (result && isEditFunc() == true) {
-        this.usersService.editUser(result);
-        localStorage.setItem('users', JSON.stringify(this.users))
-        this.cdr.markForCheck();
-      }
+    dialogRef.afterClosed().subscribe((result) => {
+      user.name = result.name;
+      user.email = result.email;
+      this.usersService.editUser(user);
+      this.cdr.markForCheck();
     });
   }
 }
