@@ -1,4 +1,4 @@
-import { Component, inject} from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { UsersApiService } from "../users-api.service";
 import { UsersService } from "../users.service";
 import { NgForOf } from "@angular/common";
@@ -20,26 +20,37 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
   styleUrls: ['./users-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersListComponent {
-    private UsersApiService = inject(UsersApiService);
+export class UsersListComponent implements OnInit {
+    public UsersApiService = inject(UsersApiService);
     public UsersService = inject(UsersService);
-    
+    public users: User[] = [];
+
     constructor(
       private readonly dialog: MatDialog,
       private readonly cdr: ChangeDetectorRef
-    ) {
-      const users = localStorage.getItem('users');
-      users
-           ? this.UsersService.users = JSON.parse(users) 
-           : this.UsersApiService.getUsers().subscribe(users => {
-              this.UsersService.users = users;
-              this.UsersService.updateLocalStorage(users);
-              this.cdr.markForCheck();
-            });
+    ) {}
+
+    ngOnInit(): void {
+      // Подписываемся на поток users$
+      this.UsersService.users$.subscribe(users => {
+        this.users = users;
+        this.cdr.markForCheck(); // Обновляем представление, если данные изменились
+      });
+
+      // Загружаем пользователей из localStorage или API
+      const savedUsers = localStorage.getItem('users');
+      if (savedUsers) {
+        this.UsersService.usersSubject.next(JSON.parse(savedUsers)); // Эмитируем данные из localStorage
+      } else {
+        this.UsersApiService.getUsers().subscribe(users => {
+          this.UsersService.usersSubject.next(users); // Эмитируем данные, полученные из API
+          this.UsersService.updateLocalStorage(users); // Сохраняем в localStorage
+        });
+      }
     }
 
-    deleteUser (userId: number) {
-      this.UsersService.deleteUser (userId); // Вызываем метод удаления
+    deleteUser(userId: number): void {
+      this.UsersService.deleteUser(userId); // Вызываем метод удаления
     }
 
     editCreateUser(userToEdit?: User): void {
@@ -48,10 +59,9 @@ export class UsersListComponent {
           user: userToEdit ?? null
         }
       }).afterClosed().subscribe(user => {
-        if(!user) return;
+        if (!user) return;
         userToEdit ? this.UsersService.editUser(user) : this.UsersService.addUser(user);
-
         this.cdr.markForCheck();
-      }); 
+      });
     }
 }
