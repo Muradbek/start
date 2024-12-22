@@ -1,0 +1,16 @@
+<div class="modal">
+    <form [formGroup]="form" class="example-form">
+        <mat-form-field class="example-full-width">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput>
+        </mat-form-field>
+        
+        <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput>
+        </mat-form-field>
+    </form>
+
+    <button (click)="applyChanges()">{{ data.user ? "Edit User" : "Add User" }}</button>
+    <button (click)="closeDialog()">Close Dialog</button>
+</div>

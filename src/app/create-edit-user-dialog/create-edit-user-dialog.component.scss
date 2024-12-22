@@ -1,0 +1,19 @@
+mat-form-field {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.modal {
+    display: flex; /* Чтобы каждая карточка отображалась как блок */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 270px;
+    min-height: 270px;
+    padding: 15px; /* Внутренние отступы внутри карточки */
+    border-radius: 28px; /* Закругленные углы */
+    background-color: #f9f9f9; /* Цвет фона карточки */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для эффекта глубины */
+    transition: transform 0.2s; /* Плавный переход для эффекта наведения */
+    border: 2px solid black
+}
