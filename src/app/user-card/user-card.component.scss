@@ -1,0 +1,43 @@
+.card {
+    display: flex; /* Чтобы каждая карточка отображалась как блок */
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 15px; /* Отступы между карточками */
+    width: 270px;
+    min-height: 270px;
+    padding: 15px; /* Внутренние отступы внутри карточки */
+    border: 1px solid #ccc; /* Граница вокруг карточки */
+    border-radius: 8px; /* Закругленные углы */
+    background-color: #f9f9f9; /* Цвет фона карточки */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для эффекта глубины */
+    transition: transform 0.2s; /* Плавный переход для эффекта наведения */
+    & .contacts {
+        display: flex; /* Чтобы каждый контакт отображался как блок */
+        flex-direction: column;
+        gap: 5px;
+        min-height: 150px;
+    }
+    & h2 {
+        font-size: 18px;
+    }
+    & .buttons {
+        display: flex;
+        justify-content: space-around;
+    }
+    & button {
+        padding: 8px 12px; /* Внутренние отступы кнопки */
+        background-color: green; /* Цвет фона кнопки */
+        color: white; /* Цвет текста кнопки */
+        width: 40%;;
+        font-size: 16px;
+        border: none; /* Убираем границу */
+        border-radius: 4px; /* Закругленные углы кнопки */
+        cursor: pointer; /* Курсор в виде указателя при наведении */
+        transition: background-color 0.3s; /* Плавный переход для изменения цвета фона */
+        &:hover {
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1); /* Цвет фона кнопки при наведении */
+            scale: 1.1;
+        }
+    }
+}
+

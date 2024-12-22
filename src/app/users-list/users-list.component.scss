@@ -1,0 +1,27 @@
+.add__user {
+    padding: 8px 12px; /* Внутренние отступы кнопки */
+    background-color: green; /* Цвет фона кнопки */
+    color: white; /* Цвет текста кнопки */
+    width: 150px;
+    height: 50px;
+    font-size: 16px;
+    margin: 15px;
+    border: none; /* Убираем границу */
+    border-radius: 4px; /* Закругленные углы кнопки */
+    cursor: pointer; /* Курсор в виде указателя при наведении */
+    transition: background-color 0.3s; /* Плавный переход для изменения цвета фона */
+    &:hover {
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1); /* Цвет фона кнопки при наведении */
+        scale: 1.1;
+    }
+}
+
+.cards__menu {
+    max-width: 1380px;
+    margin: 0 auto;
+}
+
+.cards {
+    display: flex; /* Чтобы каждая карточка отображалась как блок */
+    flex-wrap: wrap;
+}

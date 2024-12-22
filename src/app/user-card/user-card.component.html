@@ -1,0 +1,17 @@
+<div class="card">
+    <h2>{{ user?.name }}</h2>
+    <div class="contacts">
+        <div><strong>Email:</strong> {{ user?.email }}</div>
+        <div><strong>Phone:</strong> {{ user?.phone }}</div>
+        <div><strong>ID:</strong>{{user?.id}}</div>
+    </div>
+    <div class="buttons">
+        <button mat button (click)="onDelete()">
+            Delete
+        </button>
+        <button mat button (click)="onEditUser()">
+            Edit user
+        </button>
+    </div>
+</div>
+
