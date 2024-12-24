@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { UsersService } from "./users.service";
+
 import { Observable } from "rxjs";
 
 export interface User {
@@ -16,9 +16,8 @@ export interface User {
 
 @Injectable()
 export class UsersApiService {
-    private usersService = inject(UsersService)
     public printLog():void{
-        console.log('Umalat-service');
+        console.log('Alif-service');
     }
 
     private http: HttpClient = inject(HttpClient); 

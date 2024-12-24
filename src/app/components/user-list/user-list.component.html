@@ -1,0 +1,27 @@
+<div id="create-button-and-filter">
+  <button
+    mat-raised-button
+    (click)="openCreateDialog()"
+    id="create-button"
+    color="primary"
+  >
+    Create New User
+  </button>
+  <app-users-filter
+    id="filter-el"
+    [formControl]="filterControl"
+  ></app-users-filter>
+</div>
+
+<div>
+  <mat-grid-list cols="3" rowHeight="350px">
+    <mat-grid-tile *ngFor="let user of users$ | async">
+      <app-user-card
+        [userMail]="user.email"
+        [user]="user"
+        (deleteUserEvent)="deleteUser($event)"
+        (updateUserEvent)="openUpdateDialog($event)"
+      ></app-user-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
